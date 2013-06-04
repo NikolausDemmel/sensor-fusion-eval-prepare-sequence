@@ -1,0 +1,28 @@
+<launch>
+
+  <arg name="sim" default="true" />
+
+  <param name="/use_sim_time" value="$(arg sim)"/>
+
+  <arg name="handheld_urdf_file" default="$(find xacro)/xacro.py '../config/handheld_with_phasespace.urdf.xacro'" />
+  <arg name="handheld_ps_urdf_file" default="$(find xacro)/xacro.py '../config/handheld_with_phasespace_as_root.urdf.xacro'" />
+
+  <param name="robot_description" command="$(arg handheld_urdf_file)" />
+  <param name="robot_description_ps" command="$(arg handheld_ps_urdf_file)" />
+
+  <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher" output="screen">
+    <param name="publish_frequency" type="double" value="5.0" />
+    <!--param name="tf_prefix" type="string" value="" /-->
+  </node>
+
+  <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher_phase_space" output="screen">
+    <param name="publish_frequency" type="double" value="5.0" />
+    <param name="tf_prefix" type="string" value="ps" />
+    <remap from="robot_description" to="robot_description_ps" />
+  </node>
+
+  <!-- arguments are "x y z yaw pitch roll parent-frame child-frame
+       period[ms]". We want 90deg around x, so roll is pi/2 -->
+  <node pkg="tf" type="static_transform_publisher" name="map_phase_space_broadcaster" args="0 0 0 0 0 1.570796326 map phase_space 100" />
+
+</launch>

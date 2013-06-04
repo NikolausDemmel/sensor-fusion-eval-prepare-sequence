@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<VPS type="SUPPLEMENTARY" version="1.0" date="01.08.2008" masterVersion="0.2" comment="Initial supplementary configuration file for VPS">
+  <INPUT_CAMERA_MODEL>
+    <Type type="string" default="CAMERA_MODEL_SCARAMUZZA">
+      CAMERA_MODEL_SCARAMUZZA
+    </Type>
+  </INPUT_CAMERA_MODEL>
+  <OUTPUT_CAMERA_MODEL>
+    <Type type="string" default="CAMERA_MODEL_SPHERICAL_UNROLLED">
+      CAMERA_MODEL_SPHERICAL_UNROLLED
+    </Type>
+  </OUTPUT_CAMERA_MODEL>
+  <CAMERA_MODEL_SCARAMUZZA>
+    <Parameters type="vector64" size="20">
+      1024 768 530.9825922 379.2064971 183 412 -190.0841993 0 0.0004198031484 6.165753533e-006 -6.818607448e-009 -1.000116662 5.130130454e-006 -3.543400502e-005 -1 25 3 0 0 0
+    </Parameters>
+  </CAMERA_MODEL_SCARAMUZZA>
+  <CAMERA_MODEL_SPHERICAL_UNROLLED>
+    <Parameters type="vector64" size="20">
+      1024 768 530.9825922 379.2064971 183 412 -190.0841993 0 0.0004198031484 6.165753533e-006 -6.818607448e-009 -1.000116662 5.130130454e-006 -3.543400502e-005 -1 25 3 0 0 0
+    </Parameters>
+  </CAMERA_MODEL_SPHERICAL_UNROLLED>
+  <FEATURE_DECOMPOSITION>
+    <Type type="string" default="FEATURE_SIFT_GPU">
+      FEATURE_SIFT_GPU
+    </Type>
+  </FEATURE_DECOMPOSITION>
+  <MAP_DISTRIBUTION_MAP_HANDLER>
+    <MapHandlerType type="string" default="MAP_HANDLER_CONSTANT">
+      MAP_HANDLER_CONSTANT
+    </MapHandlerType>
+    <MapFilename type="string" default="vps.map">
+      ./data/20120426_MirandaOffice_SiftGPU_MapKLD.map
+    </MapFilename>
+  </MAP_DISTRIBUTION_MAP_HANDLER>
+
+  <MATCH_MODULE_RICHIMAGE_MAP_MATCHER>
+    <!-- Number of closest descriptors to search -->
+    <!-- If this number is greater than 1 a ratio test will be performed -->
+    <NumberMultiMatches type="int32" default="2" min="1" max="10">
+      2
+    </NumberMultiMatches>
+    <!-- Absolute distance threshold -->
+    <AbsoluteDistanceThreshold type="float32" default="0.1" min="0.0" max="1.0">
+      0.1
+    </AbsoluteDistanceThreshold>
+    <!-- Ratio 1st/2nd threshold -->
+    <RatioThreshold type="float32" default="0.8" min="0.0" max="1.0">
+      0.8
+    </RatioThreshold>
+    <!-- Minimal number of matches, e.g. used for keyframe based matching -->
+    <MinNumberMatches type="int32" default="10" min="0" max="100000">
+      5
+    </MinNumberMatches>
+    <!-- Number of N closest keyframe for local matching -->
+    <NumberClosestKeyframes type="int32" default="4" min="1" max="100000">
+      4
+    </NumberClosestKeyframes>
+  </MATCH_MODULE_RICHIMAGE_MAP_MATCHER>
+
+  <LOCATION_ESTIMATOR>
+    <BatchOptimization type="bool" default="false">
+      true
+    </BatchOptimization>
+    <DataAssociationMatching type="string" default="PosePriorThenGlobal">
+      GlobalOnly
+    </DataAssociationMatching>
+    <MinNumberInlierMatchesPosePrior type="int32" default="25" min="0" max="1000">
+      15
+    </MinNumberInlierMatchesPosePrior>
+    <MinNumberInlierMatches type="int32" default="15" min="0" max="1000">
+      15
+    </MinNumberInlierMatches>
+    <UseGroundTruthAsPosePrior type="bool" default="false">
+      false
+    </UseGroundTruthAsPosePrior>
+    <OutputImuPoseInCameraFrame type="bool" default="true">
+      true
+    </OutputImuPoseInCameraFrame>
+    <SkipOptimization type="bool" default="false">
+      true
+    </SkipOptimization>
+    <IncludeUnmatchedCamera type="bool" default="false">
+      true
+    </IncludeUnmatchedCamera>
+  </LOCATION_ESTIMATOR>
+
+</VPS>
