@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+
+<robot name="uvm_handheld" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <include filename="$(find uvm_description)/urdf/handheld_with_phasespace_marker.urdf.xacro" />
+
+  <property name="M_PI" value="3.1415926535897931"/>
+  <property name="mesh_scale" value="1.000 1.000 1.000" />
+
+  <link name="phase_space_rigid_body_link" />
+
+  <!-- The transformation (rfUvm_T_rfPs) from phase space rigid body link (rfPs)
+       to optical frame (rfUvm) is calculated matching the 8 measured markers to
+       the 8 positions of the markers in the rigid body file from phase space:
+       -->
+
+  <!--
+  <joint name="camera_uvm_optical_frame_phase_space_rigid_body_joint" type="fixed">
+    <origin xyz="0.062644 0.0113389 -0.0952169" rpy="1.36287 0.0305117 -1.34134" />
+    <parent link="camera_uvm_optical_frame" />
+    <child link="phase_space_rigid_body_link" />
+  </joint>
+  -->
+
+  <!-- This is the updated configuration (rfUvm_T_rfPs), starting from the
+       measured one above (rfUvmOld_T_rfPs) and then optimizing during map
+       alignment, which yields a calibration offset (rfUvm_T_rfUvmOld).
+
+               rfUvmOld_T_rfPs               rfUvm_T_UvmOld
+       rfPs ====================> rfUvmOld =================> rfUvm
+        |                                                       ^
+        |                   rfUvm_T_Ps                          |
+        +=======================================================+
+
+       The update calibration is computed as such:
+
+       rfUvm_T_Ps = rfUvm_T_UvmOld * rfUvmOld_T_rfPs
+
+
+       The estmate for that offset as of 2013/03/19 is:
+
+       =================================================
+       Estimated Calibration [R,t] (rfb_T_rfa)
+       0.999491 0.0313947 0.00569714 6.48451
+       -0.0312035 0.999032 -0.0310147 -13.7637
+       -0.00666532 0.0308212 0.999503 13.9108
+
+       Translation (rfb_T_rfa)
+       6.48451 -13.7637 13.9108
+
+       Euler angles Roll, Pitch, Yaw in Radian (rfb_T_rfa)
+       Radian: 0.0308267 0.00666537 -0.0312093
+       Degree: 1.76624 0.381898 -1.78816
+       =================================================
+
+
+       A better estmate for that offset as of 2013/06/12 computed with an 80ms
+       offset is:
+
+       =================================================
+       Estimated Calibration [R,t] (rfb_T_rfa)
+       0.999513 0.0302282 0.00777637 -2.10052
+       -0.0298578 0.998585 -0.0440031 -30.7841
+       -0.0090955 0.0437494 0.999001 13.6066
+
+       Translation (rfb_T_rfa)
+       -2.10052 -30.7841 13.6066
+
+       Euler angles Roll, Pitch, Yaw in Radian (rfb_T_rfa)
+       Radian: 0.0437652 0.00909563 -0.0298635
+       Degree: 2.50756 0.521141 -1.71105
+       =================================================
+  -->
+
+  <!-- This is the updated calibration expressed as two TF links, which
+       corresponds to the diagram aboce: -->
+
+  
+  <!-- <link name="camera_uvm_optical_frame_old" /> -->
+
+  <!-- <joint name="camera_uvm_optical_frame_camera_uvm_optical_frame_old_joint" type="fixed"> -->
+  <!--   <origin xyz="-0.00210052 -0.0307841 0.0136066" rpy="0.0437652 0.00909563 -0.0298635" /> -->
+  <!--   <parent link="camera_uvm_optical_frame" /> -->
+  <!--   <child link="camera_uvm_optical_frame_old" /> -->
+  <!-- </joint> -->
+
+  <!-- <joint name="camera_uvm_optical_frame_old_phase_space_rigid_body_joint" type="fixed"> -->
+  <!--   <origin xyz="0.062644 0.0113389 -0.0952169" rpy="1.36287 0.0305117 -1.34134" /> -->
+  <!--   <parent link="camera_uvm_optical_frame_old" /> -->
+  <!--   <child link="phase_space_rigid_body_link" /> -->
+  <!-- </joint> -->
+
+  <!--
+       We can combine the above two transformations using TF:
+
+       $ rosrun uvm_util_ros tf_echo camera_uvm_optical_frame phase_space_rigid_body_link
+       At time 1370939389.945765
+       - Translation: [0.060115, -0.017142, -0.081589]
+       - Rotation: in Quaternion [0.506008, -0.376255, -0.509555, 0.585442]
+                   in RPY [1.363967, 0.075198, -1.371345]
+
+       This yields the following joint (as of 2013/06/12):
+  -->
+
+  <joint name="camera_uvm_optical_frame_phase_space_rigid_body_joint" type="fixed">
+    <origin xyz="0.060115 -0.017142 -0.081589" rpy="1.363967 0.075198 -1.371345" />
+    <parent link="camera_uvm_optical_frame" />
+    <child link="phase_space_rigid_body_link" />
+  </joint>
+
+</robot>

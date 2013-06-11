@@ -1,0 +1,1 @@
+The matched sequences are all done with config 1, not 2, affecting their groundtruth (but this should be ok for eval).

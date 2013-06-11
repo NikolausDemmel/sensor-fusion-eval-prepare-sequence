@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<robot name="uvm_handheld" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Like handheld_with_phasespace, but now the phase space rigid body is the
+       root of the model -->
+
+  <include filename="$(find uvm_description)/urdf/handheld_with_phasespace_marker.urdf.xacro" />
+
+  <property name="M_PI" value="3.1415926535897931"/>
+  <property name="mesh_scale" value="1.000 1.000 1.000" />
+
+  <link name="phase_space_rigid_body_link" />
+
+  <!-- The joint is measured on using the handheld_with_phasespace loaded into
+       TF:
+
+       $ rosrun uvm_util_ros tf_echo  phase_space_rigid_body_link base_link
+       At time 1370939504.856110
+       - Translation: [-0.035248, -0.286496, -0.009088]
+       - Rotation: in Quaternion [-0.623854, -0.091749, -0.053660, 0.774280]
+                   in RPY [-1.359832, -0.210584, 0.032095]
+
+       This yields the following joint (as of 2013/06/12):
+  -->
+
+  <joint name="phase_space_rigid_body_base_joint" type="fixed">
+    <origin xyz="-0.035248 -0.286496 -0.009088" rpy="-1.359832 -0.210584 0.032095" />
+    <parent link="phase_space_rigid_body_link" />
+    <child link="base_link" />
+  </joint>
+
+
+</robot>

@@ -4,8 +4,8 @@
 
   <param name="/use_sim_time" value="$(arg sim)"/>
 
-  <arg name="handheld_urdf_file" default="$(find xacro)/xacro.py '../config/handheld_with_phasespace.urdf.xacro'" />
-  <arg name="handheld_ps_urdf_file" default="$(find xacro)/xacro.py '../config/handheld_with_phasespace_as_root.urdf.xacro'" />
+  <arg name="handheld_urdf_file" default="$(find xacro)/xacro.py '../config/handheld_with_phasespace2.urdf.xacro'" />
+  <arg name="handheld_ps_urdf_file" default="$(find xacro)/xacro.py '../config/handheld_with_phasespace_as_root2.urdf.xacro'" />
 
   <param name="robot_description" command="$(arg handheld_urdf_file)" />
   <param name="robot_description_ps" command="$(arg handheld_ps_urdf_file)" />
